@@ -11,7 +11,7 @@ function Square({ x, y }) {
 			isOver: !!monitor.isOver(),
 		}),
     })
-    
+
     return(
         <div className="square"
             ref={drop}

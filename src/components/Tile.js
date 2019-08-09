@@ -9,6 +9,9 @@ export default function Tile({ x, y }) {
           isDragging: !!monitor.isDragging(),
         }),
       })
+    
+    const inner = document.getElementsByClassName("inner")[0];
+    const domRect = inner.getBoundingClientRect();
 
     return(
         <div className="tile" 
@@ -19,8 +22,8 @@ export default function Tile({ x, y }) {
             cursor: 'move',
             backgroundColor: 'red',
             position: "absolute",
-            top: y*54+0,
-            left: x*53+150,
+            top: y*54+domRect.top,
+            left: x*53+domRect.left,
             zIndex: 100
         }}>
             <p>[{x}, {y}]</p>
