@@ -3,10 +3,10 @@ import { useDrop } from 'react-dnd';
 import { ItemTypes } from './Constants';
 import { moveTile } from '../App';
 
-function Square({ x, y }) {
+function Square({ x, y, tilePositions }) {
     const [{ isOver }, drop] = useDrop({
 		accept: ItemTypes.TILE,
-		drop: () => moveTile(x, y),
+		drop: () => ({x: x, y: y}),
 		collect: monitor => ({
 			isOver: !!monitor.isOver(),
 		}),

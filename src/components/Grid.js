@@ -9,20 +9,24 @@ for (let y = 0; y < 15; y++) {
     }
 }
 
-function renderSquare(x, y, tilePosition) {
-    const isTileHere = tilePosition[0] === x && tilePosition[1] === y
-    console.log(isTileHere);
-    const piece = isTileHere ? <Tile x={x} y={y} /> : null
+function renderSquare(x, y, tilePositions) {
+    let isTileHere;
+    for (let i = 0; i < tilePositions.length; i++) {
+        isTileHere = tilePositions[i][0] === x && tilePositions[i][1] === y;
+        if (isTileHere) break;
+    }
+
+    const piece = isTileHere ? <Tile x={x} y={y} tilePositions={tilePositions} /> : null
   
-    return (<div><Square x={x} y={y} />{piece}</div>);
+    return (<div><Square x={x} y={y} tilePositions={tilePositions} />{piece}</div>);
 }
 
-function Grid({ tilePosition }) {
+function Grid({ tilePositions }) {
     return (
             <div className="grid">
                 
                 {bigArr.map(item => {
-                    return renderSquare(item[0], item[1], tilePosition);
+                    return renderSquare(item[0], item[1], tilePositions);
                 })}
                 
             </div>

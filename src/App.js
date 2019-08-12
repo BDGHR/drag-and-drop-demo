@@ -5,18 +5,18 @@ import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import ReactDOM from 'react-dom';
 
-let tilePosition = [0, 0];
+let tilePositions = [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]];
 
-export function moveTile(toX, toY) {
-  tilePosition = [toX, toY]
+export function moveTile(toX, toY, index) {
+  tilePositions[index] = [toX, toY]
   emitChange()
-  console.log(toX, toY, tilePosition)
+  console.log(toX, toY, tilePositions)
 }
 
 let observer = null
 
 function emitChange() {
-  observer(tilePosition)
+  observer(tilePositions)
 }
 
 export function observe(o) {
@@ -28,8 +28,8 @@ export function observe(o) {
   emitChange()
 }
 
-export function canMoveTile(toX, toY) {
-    const [x, y] = tilePosition
+export function canMoveTile(toX, toY, index) {
+    const [x, y] = tilePositions[index]
     const dx = toX - x
     const dy = toY - y
   
@@ -45,7 +45,7 @@ function App() {
     function() {
       element = document.getElementsByClassName("inner")[0];
       console.log(element);
-    }, 1000
+    }, 500
   )
 
   return (
@@ -55,8 +55,8 @@ function App() {
           
           {setTimeout(
             function() {
-              {observe(tilePosition =>
-                ReactDOM.render(<DndProvider backend={HTML5Backend}><Grid tilePosition={tilePosition} /></DndProvider>, element))}
+              {observe(() =>
+                ReactDOM.render(<DndProvider backend={HTML5Backend}><Grid tilePositions={tilePositions} /></DndProvider>, element))}
             }, 1200
           )}
           
