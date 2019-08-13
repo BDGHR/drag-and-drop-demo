@@ -5,10 +5,10 @@ import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import ReactDOM from 'react-dom';
 
-let tilePositions = [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]];
+let tilePositions = [[0, 0, 'a'], [1, 1, 'x'], [2, 2, 'u'], [3, 3, null], [4, 4, 's'], [5, 5, 'z'], [6, 6, 'q']];
 
-export function moveTile(toX, toY, index) {
-  tilePositions[index] = [toX, toY]
+export function moveTile(toX, toY, index, letter) {
+  tilePositions[index] = [toX, toY, letter]
   emitChange()
   console.log(toX, toY, tilePositions)
 }

@@ -16,7 +16,6 @@ function Square({ x, y, tilePositions, hasTile }) {
     const inner = document.getElementsByClassName("inner")[0];
     const domRect = inner.getBoundingClientRect();
 
-    let img = '';
     let backgroundColor = "white";
     let zIndex = 0;
     const isActive = canDrop && isOver;
@@ -26,6 +25,11 @@ function Square({ x, y, tilePositions, hasTile }) {
     // })
     // hasTile = hasTile.reduce((a, b) => a || b);
     console.log("hasTile", hasTile);
+
+    const foundTileIndex = tilePositions.findIndex(tile => {
+        return tile[0] === x && tile[1] === y;
+    })
+    console.log(tilePositions[foundTileIndex]);
     
     if (isActive) {
         backgroundColor = "green";
@@ -33,8 +37,6 @@ function Square({ x, y, tilePositions, hasTile }) {
     if (isOver && hasTile) {
         backgroundColor = "#B10603";
         zIndex = 100;
-        img={redSquare};
-        console.log("it's true!")
     }
 
     return(

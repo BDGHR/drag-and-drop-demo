@@ -1,9 +1,15 @@
 import React from 'react';
-import { ItemTypes } from './Constants';
+import { ItemTypes, LETTER_TILE_VALUES } from './Constants';
 import { useDrag } from 'react-dnd';
 import { moveTile } from '../App';
 
 export default function Tile({ x, y, tilePositions }) {
+    const foundTileIndex = tilePositions.findIndex(tile => {
+        return tile[0] === x && tile[1] === y
+    })
+    let letter = tilePositions[foundTileIndex][2];
+    letter = letter ? letter.toUpperCase(): null;
+
     const [{ isDragging }, drag] = useDrag({
         item: { type: ItemTypes.TILE },
         collect: (monitor) => ({
@@ -14,11 +20,11 @@ export default function Tile({ x, y, tilePositions }) {
             if (item && dropResult) {
                 moveTile(dropResult.x, dropResult.y, tilePositions.findIndex(pos => {
                     return pos[0] === x && pos[1] === y;
-                }))
+                }), letter)
             }
         },
       })
-    
+
     const inner = document.getElementsByClassName("inner")[0];
     const domRect = inner.getBoundingClientRect();
 
@@ -35,7 +41,9 @@ export default function Tile({ x, y, tilePositions }) {
             zIndex: 90,
             backgroundColor: "khaki"
         }}>
-            <p>[{x},{y}]</p>
+            <div className="letter">{letter}</div>
+            <div className="pointValue">{LETTER_TILE_VALUES[letter]}</div>
+            
         </div>
     )
 }
