@@ -11,6 +11,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   /* box-sizing: border-box; */
+  margin: 0 auto;
 }
 
 .square, .tile {
@@ -36,6 +37,7 @@
 .App {
   display: flex;
   flex-flow: row wrap;
+  width: 100%;
 }
 
 .letter {

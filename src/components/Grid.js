@@ -2,31 +2,24 @@ import React from 'react';
 import Square from './Square';
 import Tile from './Tile';
 
-const bigArr = [];
-for (let y = 0; y < 15; y++) {
-    for (let x = 0; x < 15; x++) {
-        bigArr.push([x, y]);
-    }
-}
-
-function renderSquare(x, y, tilePositions) {
-    let isTileHere;
-    for (let i = 0; i < tilePositions.length; i++) {
-        isTileHere = tilePositions[i][0] === x && tilePositions[i][1] === y;
-        if (isTileHere) break;
-    }
-
-    const piece = isTileHere ? <Tile x={x} y={y} tilePositions={tilePositions} /> : null
+function renderSquare(x, y, letter, index, bigArr) {
+    // let isTileHere;
+    // for (let i = 0; i < tilePositions.length; i++) {
+    //     isTileHere = tilePositions[i][0] === x && tilePositions[i][1] === y;
+    //     if (isTileHere) break;
+    // }
+    let isTileHere = letter === "_" ? false : true;
+    const piece = isTileHere ? <Tile x={x} y={y} strLetter={letter} bigArr={bigArr} bigArr={bigArr} wipeTileIndex={index} /> : null
   
-    return (<div><Square x={x} y={y} tilePositions={tilePositions} hasTile={isTileHere}/>{piece}</div>);
+    return (<div><Square x={x} y={y} bigArr={bigArr} hasTile={isTileHere}/>{piece}</div>);
 }
 
-function Grid({ tilePositions }) {
+function Grid({ bigArr }) {
     return (
             <div className="grid">
                 
                 {bigArr.map(item => {
-                    return renderSquare(item[0], item[1], tilePositions);
+                    return renderSquare(item[0], item[1], item[2].toUpperCase(), item[3], bigArr);
                 })}
                 
             </div>

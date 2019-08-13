@@ -3,7 +3,7 @@ import { useDrop } from 'react-dnd';
 import { ItemTypes } from './Constants';
 import redSquare from '../img/redSquare.jpg';
 
-function Square({ x, y, tilePositions, hasTile }) {
+function Square({ x, y, bigArr, hasTile }) {
     const [{ isOver, canDrop }, drop] = useDrop({
 		accept: ItemTypes.TILE,
 		drop: () => ({x: x, y: y}),
@@ -24,12 +24,12 @@ function Square({ x, y, tilePositions, hasTile }) {
     //     return tile[0] === x && tile[1] === y;
     // })
     // hasTile = hasTile.reduce((a, b) => a || b);
-    console.log("hasTile", hasTile);
+    // console.log("hasTile", hasTile);
 
-    const foundTileIndex = tilePositions.findIndex(tile => {
+    const foundTileIndex = bigArr.findIndex(tile => {
         return tile[0] === x && tile[1] === y;
     })
-    console.log(tilePositions[foundTileIndex]);
+    // console.log(bigArr[foundTileIndex]);
     
     if (isActive) {
         backgroundColor = "green";
