@@ -1,23 +1,23 @@
-body {
+* {
   box-sizing: border-box;
 }
 
 .grid {
-  width: 800px;
-  height: 800px;
-  border: 1px solid blue;
+  width: 770px;
+  height: 770px;
+  /* border: 1px solid blue; */
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
   align-items: flex-start;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
 }
 
 .square, .tile {
   width: 50px;
   height: 50px;
   border: 1px solid black;
-  margin: 0;
+  margin: 0px;
   font-size: 14px;
 }
 
