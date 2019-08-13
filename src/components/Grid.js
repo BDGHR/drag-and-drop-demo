@@ -18,7 +18,7 @@ function renderSquare(x, y, tilePositions) {
 
     const piece = isTileHere ? <Tile x={x} y={y} tilePositions={tilePositions} /> : null
   
-    return (<div><Square x={x} y={y} tilePositions={tilePositions} />{piece}</div>);
+    return (<div><Square x={x} y={y} tilePositions={tilePositions} hasTile={isTileHere}/>{piece}</div>);
 }
 
 function Grid({ tilePositions }) {

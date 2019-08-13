@@ -1,6 +1,6 @@
 import React from 'react';
 import { ItemTypes } from './Constants';
-import { useDrag, useDrop } from 'react-dnd';
+import { useDrag } from 'react-dnd';
 import { moveTile } from '../App';
 
 export default function Tile({ x, y, tilePositions }) {
@@ -18,15 +18,6 @@ export default function Tile({ x, y, tilePositions }) {
             }
         },
       })
-
-    const [{ isOver, canDrop }, drop] = useDrop({
-        accept: ItemTypes.TILE,
-        drop: () => ({x: x, y: y}),
-        collect: monitor => ({
-            isOver: !!monitor.isOver(),
-            canDrop: !!monitor.canDrop()
-        }),
-    })
     
     const inner = document.getElementsByClassName("inner")[0];
     const domRect = inner.getBoundingClientRect();
@@ -35,16 +26,16 @@ export default function Tile({ x, y, tilePositions }) {
         <div className="tile" 
         ref={drag}
         style={{
-            opacity: isDragging ? 0.5 : 1,
+            opacity: isDragging ? 0.75 : 1,
             fontSize: 14,
             cursor: 'move',
             position: "absolute",
-            top: y*52.25,
-            left: x*51+domRect.left,
+            top: y*50,
+            left: x*50+domRect.left,
             zIndex: 90,
             backgroundColor: "khaki"
         }}>
-            <p>[{x}, {y}]</p>
+            <p>[{x},{y}]</p>
         </div>
     )
 }
