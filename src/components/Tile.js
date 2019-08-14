@@ -3,7 +3,7 @@ import { ItemTypes, LETTER_TILE_VALUES } from './Constants';
 import { useDrag } from 'react-dnd';
 import { moveTile } from '../App';
 
-export default function Tile({ x, y, strLetter, bigArr, wipeTileIndex }) {
+export default function Tile({ x, y, strLetter, bigArr, wipeTileIndex, isFree }) {
     // const foundTileIndex = tilePositions.findIndex(tile => {
     //     return tile[0] === x && tile[1] === y
     // })
@@ -30,11 +30,11 @@ export default function Tile({ x, y, strLetter, bigArr, wipeTileIndex }) {
 
     return(
         <div className="tile" 
-        ref={drag}
+        ref={isFree ? drag: null}
         style={{
             opacity: isDragging ? 0.75 : 1,
             fontSize: 14,
-            cursor: 'move',
+            cursor: isFree ? 'move': 'mouse',
             position: "absolute",
             top: y*50,
             left: x*50+domRect.left,

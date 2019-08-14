@@ -47,3 +47,9 @@
 .pointValue {
   margin-left: 25px;
 }
+
+.gridAndRack {
+  width: 90%;
+  display: flex;
+  flex-flow: row nowrap;
+}
