@@ -17,7 +17,7 @@ export default function Tile({ x, y, strLetter, bigArr, wipeTileIndex }) {
         }),
         end: (item, monitor) => {
             const dropResult = monitor.getDropResult();
-            if (item && dropResult) {
+            if (item && dropResult && !dropResult.hasTile) {
                 moveTile(dropResult.x, dropResult.y, bigArr.findIndex(item => {
                     return item[0] === dropResult.x && item[1] === dropResult.y;
                 }), strLetter, wipeTileIndex)

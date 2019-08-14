@@ -6,7 +6,7 @@ import redSquare from '../img/redSquare.jpg';
 function Square({ x, y, bigArr, hasTile }) {
     const [{ isOver, canDrop }, drop] = useDrop({
 		accept: ItemTypes.TILE,
-		drop: () => ({x: x, y: y}),
+		drop: () => ({x: x, y: y, hasTile: hasTile}),
 		collect: monitor => ({
             isOver: !!monitor.isOver(),
             canDrop: !!monitor.canDrop()

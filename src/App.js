@@ -24,6 +24,48 @@ export function moveTile(toX, toY, newIndex, letter, oldIndex) {
   bigArr[oldIndex] = [bigArr[oldIndex][0], bigArr[oldIndex][1], "_", oldIndex]
   emitChange()
   console.log("after tile move", bigArr);
+
+  getWords(bigArr);
+}
+
+function getWords(bigArr) {
+  let horizArr = [];
+  bigArr.forEach(item => {
+    horizArr.push(item[2]);
+  })
+  const horizStr = horizArr.join("");
+  console.log("horizontal", horizStr);
+  let horizGroups = [];
+  for (let i = 0; i < 225; i=i+15) {
+    horizGroups.push(horizArr.slice(i, i+15))
+  }
+  console.log(horizGroups);
+  let horizWords = horizGroups.map(group => {
+    return group.join("").split("_").filter(word => {
+      return word !== ""
+    })
+  })
+  console.log(horizWords);
+
+  let vertArr = [];
+  for (let col = 0; col < 15; col++) {
+    for (let row = 0; row < 225; row=row+15) {
+      vertArr.push(bigArr[col+row][2]);
+    }
+  }
+  const vertStr = vertArr.join("");
+  console.log("vertical", vertStr);
+  let vertGroups = [];
+  for (let i = 0; i < 225; i=i+15) {
+    vertGroups.push(vertArr.slice(i, i+15))
+  }
+  console.log(vertGroups);
+  let vertWords = vertGroups.map(group => {
+    return group.join("").split("_").filter(word => {
+      return word !== ""
+    })
+  })
+  console.log(vertWords);
 }
 
 let observer = null
