@@ -12,9 +12,16 @@ let bigStr;
 // bigStr = "hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________"
 // bigStr = "elephant_______tacos__________space__________fishman________calico";
 bigStr = "_________________________________________________________________________________________________________elephant______________a______________c______________o______________saucy"
+
+// add filler (what will become empty squares) to an array, join into string
+// then tack it onto bigStr to make it 225-long
 const fillArr = new Array(225).fill("_");
 bigStr = bigStr + fillArr.slice(0, 225-bigStr.length).join("");
+
 const strArr = bigStr.split("");
+
+// make an array of elements to populate the board
+// the format for each element is [xCoord, yCoord, letter/empty, index, isFree boolean, tileRack index]
 const bigArr = [];
 let i = 0;
 for (let y = 0; y < 15; y++) {
@@ -23,6 +30,8 @@ for (let y = 0; y < 15; y++) {
         i++;
     }
 }
+
+// add random tiles to the end of the array to be in the tileRack
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 for (let i = 0; i < 7; i++) {
   bigArr.push([i+16, 7, alphabet.charAt(Math.floor(Math.random()*26)), 225+i, true, i]);
@@ -32,13 +41,20 @@ console.log(bigArr);
 function returnTiles() {
   console.log("hello from return #1");
   for (let i = 0; i < bigArr.length; i++) {
-    if(bigArr[i][5] >= 0 && bigArr[i][3] < 225) {
+    // if there's a tileRack index (not -1) and tile is on board
+    if (bigArr[i][5] >= 0 && bigArr[i][3] < 225) {
       console.log("hello from return #2", bigArr[i][3]);
-      // tile on board moves to rack
+      
+      // when setting a square here and in moveTile()
+      // the format is [xCoord, yCoord, letter/empty, index, isFree boolean, tileRack index]
+      
+      // tile(s) on board move(s) to rack
       bigArr[bigArr[i][5]+225] = [bigArr[bigArr[i][5]+225][0], 7, bigArr[i][2], bigArr[bigArr[i][5]+225][3], true, bigArr[i][5]];
-      // remove tile from board
+      // remove tile(s) from board
       bigArr[i] = [bigArr[i][0], bigArr[i][1], "_", bigArr[i][3], false, -1];
       console.log(bigArr);
+
+      // update board
       emitChange();
     }
   }
@@ -46,13 +62,20 @@ function returnTiles() {
 
 export function moveTile(toX, toY, newIndex, letter, oldIndex, rackIndex) {
   console.log("before tile move", bigArr);
+
+  // when setting a square here and in returnTiles()
+  // the format is [xCoord, yCoord, letter/empty, index, isFree boolean, tileRack index]
+
   // where tile moves to
   bigArr[newIndex] = [toX, toY, letter, newIndex, true, rackIndex];
   // where tile moved from
   bigArr[oldIndex] = [bigArr[oldIndex][0], bigArr[oldIndex][1], "_", oldIndex, false, -1]
+  
+  // update board
   emitChange()
   console.log("after tile move", bigArr);
 
+  // print rows, columns, and all found words to console
   getWords(bigArr);
 }
 
