@@ -20,11 +20,6 @@ function Square({ x, y, bigArr, hasTile }) {
     let zIndex = 0;
     const isActive = canDrop && isOver;
     let border = "1px solid black";
-    // let hasTile = tilePositions.map(tile => {
-    //     return tile[0] === x && tile[1] === y;
-    // })
-    // hasTile = hasTile.reduce((a, b) => a || b);
-    // console.log("hasTile", hasTile);
 
     const foundTileIndex = bigArr.findIndex(tile => {
         return tile[0] === x && tile[1] === y;

@@ -8,8 +8,10 @@ import ReactDOM from 'react-dom';
 
 let tilePositions = [[0, 0, 'a'], [1, 1, 'x'], [2, 2, 'u'], [3, 3, null], [4, 4, 's'], [5, 5, 'z'], [6, 6, 'q']];
 
-let bigStr = "hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________"
-bigStr = "elephant_______tacos__________space__________fishman________calico";
+let bigStr;
+// bigStr = "hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________hello__________"
+// bigStr = "elephant_______tacos__________space__________fishman________calico";
+bigStr = "_________________________________________________________________________________________________________elephant______________a______________c______________o______________saucy"
 const fillArr = new Array(225).fill("_");
 bigStr = bigStr + fillArr.slice(0, 225-bigStr.length).join("");
 const strArr = bigStr.split("");
@@ -17,20 +19,37 @@ const bigArr = [];
 let i = 0;
 for (let y = 0; y < 15; y++) {
     for (let x = 0; x < 15; x++) {
-        bigArr.push([x, y, strArr[i], i, false]);
+        bigArr.push([x, y, strArr[i], i, false, -1]);
         i++;
     }
 }
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 for (let i = 0; i < 7; i++) {
-  bigArr.push([i+16, 8, alphabet.charAt(Math.floor(Math.random()*26)), 225+i, true]);
+  bigArr.push([i+16, 7, alphabet.charAt(Math.floor(Math.random()*26)), 225+i, true, i]);
 }
 console.log(bigArr);
 
-export function moveTile(toX, toY, newIndex, letter, oldIndex) {
+function returnTiles() {
+  console.log("hello from return #1");
+  for (let i = 0; i < bigArr.length; i++) {
+    if(bigArr[i][5] >= 0 && bigArr[i][3] < 225) {
+      console.log("hello from return #2", bigArr[i][3]);
+      // tile on board moves to rack
+      bigArr[bigArr[i][5]+225] = [bigArr[bigArr[i][5]+225][0], 7, bigArr[i][2], bigArr[bigArr[i][5]+225][3], true, bigArr[i][5]];
+      // remove tile from board
+      bigArr[i] = [bigArr[i][0], bigArr[i][1], "_", bigArr[i][3], false, -1];
+      console.log(bigArr);
+      emitChange();
+    }
+  }
+}
+
+export function moveTile(toX, toY, newIndex, letter, oldIndex, rackIndex) {
   console.log("before tile move", bigArr);
-  bigArr[newIndex] = [toX, toY, letter, newIndex, true];
-  bigArr[oldIndex] = [bigArr[oldIndex][0], bigArr[oldIndex][1], "_", oldIndex, false]
+  // where tile moves to
+  bigArr[newIndex] = [toX, toY, letter, newIndex, true, rackIndex];
+  // where tile moved from
+  bigArr[oldIndex] = [bigArr[oldIndex][0], bigArr[oldIndex][1], "_", oldIndex, false, -1]
   emitChange()
   console.log("after tile move", bigArr);
 
@@ -121,10 +140,9 @@ function App() {
             function() {
               {observe(() =>
                 ReactDOM.render(<DndProvider backend={HTML5Backend}>
-                  <div className="gridAndRack">
                     <Grid bigArr={bigArr} />
-                    <TileRack bigArr={bigArr} />
-                  </div>
+                    <TileRack bigArr={bigArr} returnTiles={returnTiles} />
+
                   </DndProvider>, element))}
             }, 1200
           )}

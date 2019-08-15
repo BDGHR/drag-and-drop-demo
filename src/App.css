@@ -48,8 +48,9 @@
   margin-left: 25px;
 }
 
-.gridAndRack {
-  width: 90%;
-  display: flex;
-  flex-flow: row nowrap;
+.returnButton {
+  width: 150px;
+  position: absolute;
+  right: 280px;
+  top: 420px;
 }
