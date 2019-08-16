@@ -2,9 +2,9 @@ import React from 'react';
 import Square from './Square';
 import Tile from './Tile';
 
-function renderSquare(x, y, letter, index, bigArr, isFree, rackIndex) {
+export function renderSquare(x, y, letter, index, bigArr, isFree, rackIndex) {
     let isTileHere = letter === "_" ? false : true;
-    console.log("rackIndex in RS", rackIndex);
+    // console.log("rackIndex in RS", rackIndex);
     const piece = isTileHere ? <Tile x={x} y={y} strLetter={letter} bigArr={bigArr} bigArr={bigArr} wipeTileIndex={index} isFree={isFree} rackIndex={rackIndex} /> : null
   
     return (<div><Square x={x} y={y} bigArr={bigArr} hasTile={isTileHere}/>{piece}</div>);

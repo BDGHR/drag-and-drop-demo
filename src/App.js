@@ -22,7 +22,7 @@ const strArr = bigStr.split("");
 
 // make an array of elements to populate the board
 // the format for each element is [xCoord, yCoord, letter/empty, index, isFree boolean, tileRack index]
-const bigArr = [];
+let bigArr = [];
 let i = 0;
 for (let y = 0; y < 15; y++) {
     for (let x = 0; x < 15; x++) {
@@ -38,26 +38,65 @@ for (let i = 0; i < 7; i++) {
 }
 console.log(bigArr);
 
+// function returnTiles() {
+//   console.log("hello from return #1");
+//   for (let i = 0; i < bigArr.length; i++) {
+//     // if there's a tileRack index (not -1) and tile is on board
+//     if (bigArr[i][5] >= 0 && bigArr[i][3] < 225) {
+//       console.log("hello from return #2", bigArr[i][3]);
+//       for (let j = 225; j < 232; j++) {
+//         if (bigArr[j][2] === "_") {
+//           // when setting a square here and in moveTile()
+//           // the format is [xCoord, yCoord, letter/empty, index, isFree boolean, tileRack index]
+          
+//           // tile(s) on board move(s) to rack
+//           bigArr[j] = [bigArr[j][0], 7, bigArr[i][2], bigArr[j][3], true, bigArr[i][5]];
+//           // remove tile(s) from board
+//           bigArr[i] = [bigArr[i][0], bigArr[i][1], "_", bigArr[i][3], false, -1];
+//           emitChange();
+//         }
+//       }
+      
+//       console.log(bigArr);
+//     }
+//   }
+// }
+
 function returnTiles() {
   console.log("hello from return #1");
   for (let i = 0; i < bigArr.length; i++) {
     // if there's a tileRack index (not -1) and tile is on board
     if (bigArr[i][5] >= 0 && bigArr[i][3] < 225) {
-      console.log("hello from return #2", bigArr[i][3]);
-      
-      // when setting a square here and in moveTile()
-      // the format is [xCoord, yCoord, letter/empty, index, isFree boolean, tileRack index]
-      
-      // tile(s) on board move(s) to rack
-      bigArr[bigArr[i][5]+225] = [bigArr[bigArr[i][5]+225][0], 7, bigArr[i][2], bigArr[bigArr[i][5]+225][3], true, bigArr[i][5]];
-      // remove tile(s) from board
-      bigArr[i] = [bigArr[i][0], bigArr[i][1], "_", bigArr[i][3], false, -1];
-      console.log(bigArr);
-
-      // update board
-      emitChange();
+      // console.log("hello from return #2", bigArr[i][3]);
+      for (let j = 225; j < 232; j++) {
+        if (bigArr[j][2] === "_") {
+          // when setting a square here and in moveTile()
+          // the format is [xCoord, yCoord, letter/empty, index, isFree boolean, tileRack index]
+          
+          // tile(s) on board move(s) to rack
+          bigArr[j] = [bigArr[j][0], 7, bigArr[i][2], bigArr[j][3], true, bigArr[i][5]];
+          // remove tile(s) from board
+          bigArr[i] = [bigArr[i][0], bigArr[i][1], "_", bigArr[i][3], false, -1];
+          // emitChange();
+        }
+      }
     }
   }
+
+  // rearrange tileRack
+  let tileRack = bigArr.slice(225, 232);
+  
+  // console.log("before sort", tileRack);
+  tileRack = tileRack.sort((a, b) => {
+    return a[5] > b[5] ? 1 : -1;
+  });
+  console.log("after sort", tileRack);
+  for (let i = 0; i < tileRack.length; i++) {
+    bigArr[tileRack[i][5]+225] = [tileRack[i][5]+16, 7, tileRack[i][2], 225+i, tileRack[i][4], tileRack[i][5]];
+  }
+  // bigArr.splice(225, 7, ...tileRack);
+  console.log("after splice", bigArr);
+  emitChange();
 }
 
 export function moveTile(toX, toY, newIndex, letter, oldIndex, rackIndex) {
@@ -150,7 +189,6 @@ function App() {
   setTimeout (
     function() {
       element = document.getElementsByClassName("inner")[0];
-      // (element);
     }, 500
   )
 
@@ -162,10 +200,10 @@ function App() {
           {setTimeout(
             function() {
               {observe(() =>
-                ReactDOM.render(<DndProvider backend={HTML5Backend}>
+                ReactDOM.render(
+                <DndProvider backend={HTML5Backend}>
                     <Grid bigArr={bigArr} />
                     <TileRack bigArr={bigArr} returnTiles={returnTiles} />
-
                   </DndProvider>, element))}
             }, 1200
           )}
